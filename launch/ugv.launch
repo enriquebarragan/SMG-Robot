@@ -1,0 +1,39 @@
+<launch>
+	<param name = "/diff_drive_controller/left_wheel" type = "string" value = "Left" />
+	<param name = "/diff_drive_controller/right_wheel" type = "string" value = "Right" />
+	<rosparam param = "/diff_drive_controller/pose_covariance_diagonal">[0.01,0.01,0.01,0.1,0.1,0.1]</rosparam>
+	<rosparam param = "/diff_drive_controller/twist_covariance_diagonal">[0.01,0.01,0.01,0.1,0.1,0.1]</rosparam>
+	<param name = "/diff_drive_controller/wheel_separation" type = "double" value = "0.51435" />
+	<param name = "/diff_drive_controller/wheel_radius" type = "double" value = "0.12" />
+	<param name = "/diff_drive_controller/type" type = "string" value = "diff_drive_controller/DiffDriveController" />
+	<param name = "/diff_drive_controller/enable_odom_tf" type = "bool"  value = "false" />
+	<param name = "/diff_drive_controller/publish_cmd" type = "bool" value = "true" />
+
+	<node pkg = "ugv" 
+	      type = "UGVinterface"
+	      name = "UGVinterface_node" />
+
+	<node pkg="lms1xx" type="LMS1xx_node" name="lidar">
+		<param name="host" value="192.168.1.39" />
+	</node>
+
+	<node pkg = "ugv"
+		type = "laserbroadcaster"
+		name = "laserbroadcasternode" />
+
+	<node pkg = "topic_tools"
+		type = "relay"
+		name = "odom_relay"
+		args = "diff_drive_controller/odom odom" />
+
+	<node pkg = "controller_manager"
+		type = "spawner"
+		name = "controller_manager_spawner"
+		args = "diff_drive_controller" />
+	
+	<node pkg = "topic_tools"
+		type = "relay"
+		name = "cmd_vel_relay"
+		args = "cmd_vel diff_drive_controller/cmd_vel" />
+
+</launch>
