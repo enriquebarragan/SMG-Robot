@@ -1,0 +1,22 @@
+<launch>
+  <include file="$(find ugv)/launch/ugv.launch"/>
+  <include file="$(find hector_slam_launch)/launch/tutorial.launch"/>
+
+  <node pkg="tf" type="static_transform_publisher" name="robot_base_tf" args="0 0 0 0 0 0 base_footprint base_link 100" />
+  <node pkg="tf" type="static_transform_publisher" name="odom_tf" args="0 0 0 0 0 0 laser odom 100" />
+  <param name="robot_description" textfile="$(find ugv)/launch/sauce.urdf" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find ugv)/launch/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+    <rosparam file="$(find ugv)/launch/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find ugv)/launch/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find ugv)/launch/config/global_costmap_params.yaml" command="load" /> 
+    <rosparam file="$(find ugv)/launch/config/base_local_planner_params.yaml" command="load" />
+ </node>
+</launch>
+
+
+

@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<robot name="ugv">
+
+  <material name="wheel_mat">
+  	<color rgba="0.1 0.1 0.1 1" />
+  </material>
+
+  <material name="frame_mat">
+  	<color rgba="0.6 0.6 0.6 1" />
+  </material>
+
+  <material name="laser_mat">
+  	<color rgba="0.0 0.0 1 1" />
+  </material>
+
+  <material name="base_mat">
+  	<color rgba="0.9 0.0 0.0 1" />
+  </material>
+
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.305 0.419 0.216" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.1778" />
+      <material name="frame_mat" />
+    </visual>
+  </link>
+
+  <link name="back_base">
+    <visual>
+      <geometry>
+        <box size="0.65 0.419 0.610" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="-.15 0 .38" />
+      <material name="frame_mat" />
+    </visual>
+  </link>
+
+  <link name="front">
+    <visual>
+      <geometry>
+        <box size="0.229 0.483 0.165" />
+      </geometry>
+      <origin rpy="0 0 0" xyz=".254 0 0.0825" />
+      <material name="base_mat" />
+    </visual>
+  </link>
+ 
+  <link name="right_wheel">
+  	<visual>
+  		<geometry>
+  			<cylinder length="0.089" radius="0.127" />
+  		</geometry>
+  		<origin rpy="1.5708 0 0" xyz="0 0.2535 0.127" />
+  		<material name="wheel_mat" />
+  	</visual>
+  </link>
+
+
+  <link name="left_wheel">
+  	<visual>
+  		<geometry>
+  			<cylinder length="0.089" radius="0.127" />
+  		</geometry>
+  		<origin rpy="1.5708 0 0" xyz="0 -0.2535 0.127" />
+  		<material name="wheel_mat" />
+  	</visual>
+  </link>
+
+  <link name="laser">
+  	<visual>
+  		<geometry>
+  			<cylinder length="0.1778" radius="0.05" />
+  		</geometry>
+  		<origin rpy="0 0 0" xyz="0.177 0.0 0.2539" />
+  		<material name="laser_mat" />
+  	</visual>
+  </link>
+
+
+  <joint name="base_to_back" type="fixed">
+  	<parent link="base_link" />
+  	<child link="back_base" />
+  </joint>
+
+  <joint name="base_to_front" type="fixed">
+  	<parent link="base_link" />
+  	<child link="front" />
+  </joint>
+
+  <joint name="base_to_right_wheel" type="fixed">
+  	<parent link="base_link" />
+  	<child link="right_wheel" />
+  </joint>
+
+  <joint name="base_to_left_wheel" type="fixed">
+  	<parent link="base_link" />
+  	<child link="left_wheel" />
+  </joint>
+
+  <joint name="base_to_laser" type="fixed">
+  	<parent link="base_link" />
+  	<child link="laser" />
+  </joint>
+</robot>
